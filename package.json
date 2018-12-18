@@ -1,0 +1,22 @@
+{
+  "name": "node_graphql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "repository": "git+https://github.com/blackflame007/Node_Graphql.git",
+  "author": "Nick L.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/blackflame007/Node_Graphql/issues"
+  },
+  "homepage": "https://github.com/blackflame007/Node_Graphql#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "graphql-yoga": "^1.16.7",
+    "jsonwebtoken": "^8.4.0",
+    "prisma-client-lib": "^1.22.2"
+  }
+}
