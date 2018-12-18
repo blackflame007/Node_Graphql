@@ -33,3 +33,13 @@ prisma deploy
 ```
 
 To migrate the chages in your datamodel.graphql to your database. A hook in prisma.yml gets triggered which generates your better then crud methods which will be placed in src/generated. To learn more about prismas orm crud like methods you can check them out here: https://www.prisma.io/docs/prisma-client/basic-data-access/writing-data-JAVASCRIPT-rsc6/
+
+To test user related forigen key with the post example goto: http://127.0.0.1:8000/playground
+
+Make sure you paste your token into the HTTP headers at the bottom after using the Signup or Signin Mutation.
+
+```javascript
+{
+  "Authorization": "Bearer __TOKEN__"
+}
+```
