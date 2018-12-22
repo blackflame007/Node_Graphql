@@ -13,7 +13,7 @@ services:
         databases:
           default:
             connector: postgres
-            host: 'node-graphql-test.c7rqfeihjpgf.us-west-1.rds.amazonaws.com'
+            host: 'graphql-node.c7rqfeihjpgf.us-west-1.rds.amazonaws.com'
             port: 5432
             user: 'blackflame'
             password: 'password12345'
