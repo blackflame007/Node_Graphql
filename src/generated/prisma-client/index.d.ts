@@ -10,6 +10,7 @@ type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
   U[keyof U];
 
 export interface Exists {
+  file: (where?: FileWhereInput) => Promise<boolean>;
   message: (where?: MessageWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
@@ -33,6 +34,29 @@ export interface Prisma {
    * Queries
    */
 
+  file: (where: FileWhereUniqueInput) => FilePromise;
+  files: (
+    args?: {
+      where?: FileWhereInput;
+      orderBy?: FileOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<File>;
+  filesConnection: (
+    args?: {
+      where?: FileWhereInput;
+      orderBy?: FileOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FileConnectionPromise;
   message: (where: MessageWhereUniqueInput) => MessagePromise;
   messages: (
     args?: {
@@ -85,6 +109,22 @@ export interface Prisma {
    * Mutations
    */
 
+  createFile: (data: FileCreateInput) => FilePromise;
+  updateFile: (
+    args: { data: FileUpdateInput; where: FileWhereUniqueInput }
+  ) => FilePromise;
+  updateManyFiles: (
+    args: { data: FileUpdateManyMutationInput; where?: FileWhereInput }
+  ) => BatchPayloadPromise;
+  upsertFile: (
+    args: {
+      where: FileWhereUniqueInput;
+      create: FileCreateInput;
+      update: FileUpdateInput;
+    }
+  ) => FilePromise;
+  deleteFile: (where: FileWhereUniqueInput) => FilePromise;
+  deleteManyFiles: (where?: FileWhereInput) => BatchPayloadPromise;
   createMessage: (data: MessageCreateInput) => MessagePromise;
   updateMessage: (
     args: { data: MessageUpdateInput; where: MessageWhereUniqueInput }
@@ -126,6 +166,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  file: (
+    where?: FileSubscriptionWhereInput
+  ) => FileSubscriptionPayloadSubscription;
   message: (
     where?: MessageSubscriptionWhereInput
   ) => MessageSubscriptionPayloadSubscription;
@@ -152,6 +195,22 @@ export type MessageOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
+export type FileOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "path_ASC"
+  | "path_DESC"
+  | "filename_ASC"
+  | "filename_DESC"
+  | "mimetype_ASC"
+  | "mimetype_DESC"
+  | "encoding_ASC"
+  | "encoding_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
 export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -168,7 +227,7 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type MessageWhereUniqueInput = AtLeastOne<{
+export type FileWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
@@ -280,54 +339,103 @@ export interface UserWhereInput {
   NOT?: UserWhereInput[] | UserWhereInput;
 }
 
+export interface FileWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  path?: String;
+  path_not?: String;
+  path_in?: String[] | String;
+  path_not_in?: String[] | String;
+  path_lt?: String;
+  path_lte?: String;
+  path_gt?: String;
+  path_gte?: String;
+  path_contains?: String;
+  path_not_contains?: String;
+  path_starts_with?: String;
+  path_not_starts_with?: String;
+  path_ends_with?: String;
+  path_not_ends_with?: String;
+  filename?: String;
+  filename_not?: String;
+  filename_in?: String[] | String;
+  filename_not_in?: String[] | String;
+  filename_lt?: String;
+  filename_lte?: String;
+  filename_gt?: String;
+  filename_gte?: String;
+  filename_contains?: String;
+  filename_not_contains?: String;
+  filename_starts_with?: String;
+  filename_not_starts_with?: String;
+  filename_ends_with?: String;
+  filename_not_ends_with?: String;
+  mimetype?: String;
+  mimetype_not?: String;
+  mimetype_in?: String[] | String;
+  mimetype_not_in?: String[] | String;
+  mimetype_lt?: String;
+  mimetype_lte?: String;
+  mimetype_gt?: String;
+  mimetype_gte?: String;
+  mimetype_contains?: String;
+  mimetype_not_contains?: String;
+  mimetype_starts_with?: String;
+  mimetype_not_starts_with?: String;
+  mimetype_ends_with?: String;
+  mimetype_not_ends_with?: String;
+  encoding?: String;
+  encoding_not?: String;
+  encoding_in?: String[] | String;
+  encoding_not_in?: String[] | String;
+  encoding_lt?: String;
+  encoding_lte?: String;
+  encoding_gt?: String;
+  encoding_gte?: String;
+  encoding_contains?: String;
+  encoding_not_contains?: String;
+  encoding_starts_with?: String;
+  encoding_not_starts_with?: String;
+  encoding_ends_with?: String;
+  encoding_not_ends_with?: String;
+  owner?: UserWhereInput;
+  AND?: FileWhereInput[] | FileWhereInput;
+  OR?: FileWhereInput[] | FileWhereInput;
+  NOT?: FileWhereInput[] | FileWhereInput;
+}
+
+export type MessageWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
 export type UserWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
   email?: String;
 }>;
 
-export interface MessageCreateInput {
-  description: String;
-  postedBy?: UserCreateOneWithoutMessagesInput;
+export interface FileCreateInput {
+  path: String;
+  filename: String;
+  mimetype: String;
+  encoding: String;
+  owner?: UserCreateOneInput;
 }
 
-export interface UserCreateOneWithoutMessagesInput {
-  create?: UserCreateWithoutMessagesInput;
+export interface UserCreateOneInput {
+  create?: UserCreateInput;
   connect?: UserWhereUniqueInput;
-}
-
-export interface UserCreateWithoutMessagesInput {
-  name: String;
-  email: String;
-  password: String;
-}
-
-export interface MessageUpdateInput {
-  description?: String;
-  postedBy?: UserUpdateOneWithoutMessagesInput;
-}
-
-export interface UserUpdateOneWithoutMessagesInput {
-  create?: UserCreateWithoutMessagesInput;
-  update?: UserUpdateWithoutMessagesDataInput;
-  upsert?: UserUpsertWithoutMessagesInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: UserWhereUniqueInput;
-}
-
-export interface UserUpdateWithoutMessagesDataInput {
-  name?: String;
-  email?: String;
-  password?: String;
-}
-
-export interface UserUpsertWithoutMessagesInput {
-  update: UserUpdateWithoutMessagesDataInput;
-  create: UserCreateWithoutMessagesInput;
-}
-
-export interface MessageUpdateManyMutationInput {
-  description?: String;
 }
 
 export interface UserCreateInput {
@@ -348,7 +456,24 @@ export interface MessageCreateWithoutPostedByInput {
   description: String;
 }
 
-export interface UserUpdateInput {
+export interface FileUpdateInput {
+  path?: String;
+  filename?: String;
+  mimetype?: String;
+  encoding?: String;
+  owner?: UserUpdateOneInput;
+}
+
+export interface UserUpdateOneInput {
+  create?: UserCreateInput;
+  update?: UserUpdateDataInput;
+  upsert?: UserUpsertNestedInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserUpdateDataInput {
   name?: String;
   email?: String;
   password?: String;
@@ -440,10 +565,85 @@ export interface MessageUpdateManyDataInput {
   description?: String;
 }
 
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
+export interface FileUpdateManyMutationInput {
+  path?: String;
+  filename?: String;
+  mimetype?: String;
+  encoding?: String;
+}
+
+export interface MessageCreateInput {
+  description: String;
+  postedBy?: UserCreateOneWithoutMessagesInput;
+}
+
+export interface UserCreateOneWithoutMessagesInput {
+  create?: UserCreateWithoutMessagesInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserCreateWithoutMessagesInput {
+  name: String;
+  email: String;
+  password: String;
+}
+
+export interface MessageUpdateInput {
+  description?: String;
+  postedBy?: UserUpdateOneWithoutMessagesInput;
+}
+
+export interface UserUpdateOneWithoutMessagesInput {
+  create?: UserCreateWithoutMessagesInput;
+  update?: UserUpdateWithoutMessagesDataInput;
+  upsert?: UserUpsertWithoutMessagesInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserUpdateWithoutMessagesDataInput {
+  name?: String;
+  email?: String;
+  password?: String;
+}
+
+export interface UserUpsertWithoutMessagesInput {
+  update: UserUpdateWithoutMessagesDataInput;
+  create: UserCreateWithoutMessagesInput;
+}
+
+export interface MessageUpdateManyMutationInput {
+  description?: String;
+}
+
+export interface UserUpdateInput {
+  name?: String;
+  email?: String;
+  password?: String;
+  messages?: MessageUpdateManyWithoutPostedByInput;
+}
+
 export interface UserUpdateManyMutationInput {
   name?: String;
   email?: String;
   password?: String;
+}
+
+export interface FileSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: FileWhereInput;
+  AND?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput;
+  OR?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput;
+  NOT?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput;
 }
 
 export interface MessageSubscriptionWhereInput {
@@ -472,26 +672,32 @@ export interface NodeNode {
   id: ID_Output;
 }
 
-export interface Message {
+export interface File {
   id: ID_Output;
-  description: String;
-  createdAt: DateTimeOutput;
+  path: String;
+  filename: String;
+  mimetype: String;
+  encoding: String;
 }
 
-export interface MessagePromise extends Promise<Message>, Fragmentable {
+export interface FilePromise extends Promise<File>, Fragmentable {
   id: () => Promise<ID_Output>;
-  description: () => Promise<String>;
-  createdAt: () => Promise<DateTimeOutput>;
-  postedBy: <T = UserPromise>() => T;
+  path: () => Promise<String>;
+  filename: () => Promise<String>;
+  mimetype: () => Promise<String>;
+  encoding: () => Promise<String>;
+  owner: <T = UserPromise>() => T;
 }
 
-export interface MessageSubscription
-  extends Promise<AsyncIterator<Message>>,
+export interface FileSubscription
+  extends Promise<AsyncIterator<File>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  description: () => Promise<AsyncIterator<String>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  postedBy: <T = UserSubscription>() => T;
+  path: () => Promise<AsyncIterator<String>>;
+  filename: () => Promise<AsyncIterator<String>>;
+  mimetype: () => Promise<AsyncIterator<String>>;
+  encoding: () => Promise<AsyncIterator<String>>;
+  owner: <T = UserSubscription>() => T;
 }
 
 export interface User {
@@ -539,22 +745,44 @@ export interface UserSubscription
   ) => T;
 }
 
-export interface MessageConnection {}
-
-export interface MessageConnectionPromise
-  extends Promise<MessageConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<MessageEdge>>() => T;
-  aggregate: <T = AggregateMessagePromise>() => T;
+export interface Message {
+  id: ID_Output;
+  description: String;
+  createdAt: DateTimeOutput;
 }
 
-export interface MessageConnectionSubscription
-  extends Promise<AsyncIterator<MessageConnection>>,
+export interface MessagePromise extends Promise<Message>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  description: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  postedBy: <T = UserPromise>() => T;
+}
+
+export interface MessageSubscription
+  extends Promise<AsyncIterator<Message>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  description: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  postedBy: <T = UserSubscription>() => T;
+}
+
+export interface FileConnection {}
+
+export interface FileConnectionPromise
+  extends Promise<FileConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<FileEdge>>() => T;
+  aggregate: <T = AggregateFilePromise>() => T;
+}
+
+export interface FileConnectionSubscription
+  extends Promise<AsyncIterator<FileConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<MessageEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateMessageSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<FileEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateFileSubscription>() => T;
 }
 
 export interface PageInfo {
@@ -578,6 +806,56 @@ export interface PageInfoSubscription
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
   endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface FileEdge {
+  cursor: String;
+}
+
+export interface FileEdgePromise extends Promise<FileEdge>, Fragmentable {
+  node: <T = FilePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface FileEdgeSubscription
+  extends Promise<AsyncIterator<FileEdge>>,
+    Fragmentable {
+  node: <T = FileSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateFile {
+  count: Int;
+}
+
+export interface AggregateFilePromise
+  extends Promise<AggregateFile>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateFileSubscription
+  extends Promise<AsyncIterator<AggregateFile>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface MessageConnection {}
+
+export interface MessageConnectionPromise
+  extends Promise<MessageConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<MessageEdge>>() => T;
+  aggregate: <T = AggregateMessagePromise>() => T;
+}
+
+export interface MessageConnectionSubscription
+  extends Promise<AsyncIterator<MessageConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<MessageEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateMessageSubscription>() => T;
 }
 
 export interface MessageEdge {
@@ -676,6 +954,57 @@ export interface BatchPayloadSubscription
   extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface FileSubscriptionPayload {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface FileSubscriptionPayloadPromise
+  extends Promise<FileSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = FilePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = FilePreviousValuesPromise>() => T;
+}
+
+export interface FileSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<FileSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = FileSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = FilePreviousValuesSubscription>() => T;
+}
+
+export interface FilePreviousValues {
+  id: ID_Output;
+  path: String;
+  filename: String;
+  mimetype: String;
+  encoding: String;
+}
+
+export interface FilePreviousValuesPromise
+  extends Promise<FilePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  path: () => Promise<String>;
+  filename: () => Promise<String>;
+  mimetype: () => Promise<String>;
+  encoding: () => Promise<String>;
+}
+
+export interface FilePreviousValuesSubscription
+  extends Promise<AsyncIterator<FilePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  path: () => Promise<AsyncIterator<String>>;
+  filename: () => Promise<AsyncIterator<String>>;
+  mimetype: () => Promise<AsyncIterator<String>>;
+  encoding: () => Promise<AsyncIterator<String>>;
 }
 
 export interface MessageSubscriptionPayload {
@@ -809,6 +1138,10 @@ export type Long = string;
  */
 
 export const models = [
+  {
+    name: "File",
+    embedded: false
+  },
   {
     name: "Message",
     embedded: false

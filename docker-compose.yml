@@ -12,9 +12,18 @@ services:
         # managementApiSecret: my-secret
         databases:
           default:
-            connector: postgres
-            host: 'graphql-node.c7rqfeihjpgf.us-west-1.rds.amazonaws.com'
-            port: 5432
-            user: 'blackflame'
-            password: 'password12345'
+            connector: mysql
+            host: mysql
+            port: 3306
+            user: 'root'
+            password: 'grassroots'
             migrations: true
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: grassroots
+    volumes:
+      - mysql:/var/lib/mysql
+volumes:
+  mysql:

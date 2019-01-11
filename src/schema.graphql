@@ -1,10 +1,5 @@
 scalar DateTime
-
-type Query {
-  info: String!
-  feed: [Message!]!
-  message(id: ID!): Message
-}
+scalar Upload
 
 type AuthPayload {
   token: String
@@ -18,8 +13,26 @@ type User {
   messages: [Message!]!
 }
 
+type File {
+  id: ID!
+  path: String!
+  filename: String!
+  mimetype: String!
+  encoding: String!
+  owner: User
+}
+
+type Query {
+  info: String!
+  feed: [Message!]!
+  message(id: ID!): Message
+}
+
 type Mutation {
   post(description: String!): Message!
+
+  singleUpload(file: Upload!): File!
+  multipleUpload(files: [Upload!]!): [File!]!
 
   signup(email: String!, password: String!, name: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload

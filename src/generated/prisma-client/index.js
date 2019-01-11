@@ -5,6 +5,10 @@ var typeDefs = require("./prisma-schema").typeDefs;
 
 var models = [
   {
+    name: "File",
+    embedded: false
+  },
+  {
     name: "Message",
     embedded: false
   },
@@ -20,6 +24,10 @@ exports.Prisma = prisma_lib_1.makePrismaClientClass({
 });
 exports.prisma = new exports.Prisma();
 var models = [
+  {
+    name: "File",
+    embedded: false
+  },
   {
     name: "Message",
     embedded: false

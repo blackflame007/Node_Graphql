@@ -12,3 +12,12 @@ type User {
   password: String!
   messages: [Message!]!
 }
+
+type File {
+  id: ID! @unique
+  path: String!
+  filename: String!
+  mimetype: String!
+  encoding: String!
+  owner: User
+}
